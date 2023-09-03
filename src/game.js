@@ -96,6 +96,8 @@ function setTextOffsets (size) {
   rect = canv.getBoundingClientRect();
   ctx = canv.getContext("2d");
   ctx.font = tileSize + "px Arial";
+  erm = new Image()
+  erm.src = "img/Erm.png"
 
   resetGame();
 }
@@ -360,11 +362,14 @@ function endGame(x, y) {
 
   ctx.fillStyle="brown";
   ctx.fillRect(x*tileSize+1, y*tileSize+1, tileSize, tileSize);
-  ctx.fillStyle="red";
-  ctx.fillRect(x*tileSize+1, y*tileSize+1, tileSize-1, tileSize-1);
-  
+  //ctx.fillStyle="red";
+  //ctx.fillRect(x*tileSize+1, y*tileSize+1, tileSize-1, tileSize-1);
+
   ctx.fillStyle="black";
-  ctx.fillText("*", x*tileSize+textOffsets.hOffsetMine, (y+1)*tileSize+textOffsets.vOffsetMine);
+  ctx.drawImage(erm, x*tileSize, y*tileSize, tileSize-1, tileSize-1);
+
+  var audio = new Audio('assets/erm.mp3');
+  audio.play();
 
   for (var j = 0; j < gameState.length; j++) {
     for (var i = 0; i < gameState[j].length; i++) {
@@ -376,7 +381,7 @@ function endGame(x, y) {
         ctx.fillStyle="grey";
         ctx.fillRect(i*tileSize+1, j*tileSize+1, tileSize-1, tileSize-1);
         ctx.fillStyle="black";
-        ctx.fillText("*", i*tileSize+textOffsets.hOffsetMine, (j+1)*tileSize+textOffsets.vOffsetMine);
+        ctx.drawImage(erm, i*tileSize, j*tileSize, tileSize-1, tileSize-1);
       }
     }
   }
@@ -387,6 +392,10 @@ function winGame() {
   document.getElementById("gameTimer").style.color = "black";
   document.getElementById("gameEmote").innerHTML = "B-)";
   document.getElementById("gameMines").innerHTML = "0 / " + maxGameMines;
+
+  var audio = new Audio('assets/pog.mp3');
+  audio.play();
+
   for (var j = 0; j < gameState.length; j++) {
     for (var i = 0; i < gameState[j].length; i++) {
       if (gridClicked[j][i] != tileClicked) {
@@ -395,7 +404,7 @@ function winGame() {
         ctx.fillStyle="aliceblue";
         ctx.fillRect(i*tileSize+1, j*tileSize+1, tileSize-1, tileSize-1);
         ctx.fillStyle="powderblue";
-        ctx.fillText("*", i*tileSize+textOffsets.hOffsetMine, (j+1)*tileSize+textOffsets.vOffsetMine);
+        ctx.drawImage(erm, i*tileSize, j*tileSize, tileSize, tileSize);
       }
     }
   }
@@ -408,11 +417,11 @@ function winGame() {
 function openModal () {
   document.getElementById("customGameModal").style.display = "block";
   document.getElementById("modal-msg").innerHTML = "";
-} 
+}
 
 function closeModal () {
   document.getElementById("customGameModal").style.display = "none";
-} 
+}
 
 function applyCustomGame () {
   try {
@@ -478,5 +487,5 @@ function applyCustomGame () {
 window.onclick = function(event) {
   if (event.target == document.getElementById("customGameModal")) {
     closeModal();
-  } 
+  }
 }
